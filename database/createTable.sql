@@ -54,13 +54,6 @@ CREATE TABLE request_borrow (
 ALTER TABLE borrow ADD COLUMN requestID INT;
 ALTER TABLE borrow ADD FOREIGN KEY (requestID) REFERENCES request_borrow(requestID);
 
-CREATE TABLE librarians (
-    librarianID INT AUTO_INCREMENT PRIMARY KEY,
-    userID INT UNIQUE,
-    hoTen VARCHAR(255),
-    FOREIGN KEY (userID) REFERENCES users(userID)
-);
-
 
 ALTER TABLE borrow ADD COLUMN ngayHenTra DATE;
 ALTER TABLE borrow ADD COLUMN ngayTraThucTe DATE;

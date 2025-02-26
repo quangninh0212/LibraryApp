@@ -25,7 +25,7 @@ public class DocGiaDAO extends DAO{
     }
     
     public boolean addDocGia(DocGia s) {
-        String sql = "insert into people values (?, ?, ?, ?, ?, ?)";
+        String sql = "insert into people values (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, s.getMaDG());
@@ -33,6 +33,7 @@ public class DocGiaDAO extends DAO{
             ps.setString(3, s.getGioiTinh());
             ps.setString(4, s.getNgaySinh());
             ps.setString(5, s.getDoiTuong());
+            ps.setString(7, s.getEmail());
             ps.setInt(6, s.getUserID());
             
             int cnt = ps.executeUpdate();
@@ -112,8 +113,8 @@ public class DocGiaDAO extends DAO{
     }
     
     public DefaultTableModel getListDocGia() {
-       String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh, people.doiTuong from users, people where users.userID = people.userID and vaiTro = N'Độc giả'";
-        String[] col = {"UserID", "Tài khoản", "Mã ĐG", "Họ tên", "Giới tính", "Ngày sinh", "Đối tượng"};
+       String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh, people.doiTuong, people.email from users, people where users.userID = people.userID and vaiTro = N'Độc giả'";
+        String[] col = {"UserID", "Tài khoản", "Mã ĐG", "Họ tên", "Giới tính", "Ngày sinh", "Đối tượng", "Email"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
         try {
             Statement st = con.createStatement();
@@ -134,6 +135,7 @@ public class DocGiaDAO extends DAO{
                 else
                     vecto.add(date);
                 vecto.add(res.getString(7));
+                vecto.add(res.getString(8));
                 model.addRow(vecto);
             }
         }
@@ -144,13 +146,13 @@ public class DocGiaDAO extends DAO{
     }
     
     public ArrayList<DocGia> getAllDocGia() {
-        String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh, people.doiTuong from users, people where users.userID = people.userID and vaiTro = N'Độc giả'";
+        String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh, people.doiTuong, people.email from users, people where users.userID = people.userID and vaiTro = N'Độc giả'";
         ArrayList<DocGia> arr = new ArrayList<>();
         try {
             Statement st = con.createStatement();
             ResultSet res = st.executeQuery(sql);
             while(res.next()) {
-                DocGia dg = new DocGia(res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getInt(1), res.getString(2));
+                DocGia dg = new DocGia(res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getInt(1), res.getString(2), res.getString(8));
                 arr.add(dg);
             }
         }
@@ -176,8 +178,8 @@ public class DocGiaDAO extends DAO{
     }
     
     public DefaultTableModel getListThuThu() {
-        String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh from users, people where users.userID = people.userID and vaiTro = N'Thủ thư'";
-        String[] col = {"UserID", "Tài khoản", "Mã TT", "Họ tên", "Giới tính", "Ngày sinh"};
+        String sql = "select users.userID, users.tenDangNhap, people.maDG, people.hoTen, people.gioiTinh, people.ngaySinh, people.email from users, people where users.userID = people.userID and vaiTro = N'Thủ thư'";
+        String[] col = {"UserID", "Tài khoản", "Mã TT", "Họ tên", "Giới tính", "Ngày sinh", "Email"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
         try {
             Statement st = con.createStatement();
@@ -197,6 +199,8 @@ public class DocGiaDAO extends DAO{
                 }
                 else
                     vecto.add(date);
+                
+                vecto.add(res.getString(7));
                 
                 model.addRow(vecto);
             }
@@ -224,14 +228,15 @@ public class DocGiaDAO extends DAO{
     }
     
     public boolean updateThongTin(DocGia dg, int userID) {
-        String sql = "update people set hoTen = ?, gioiTinh = ?, ngaySinh = ? where userID = ?";
+        String sql = "update people set hoTen = ?, gioiTinh = ?, ngaySinh = ?, email = ? where userID = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, dg.getHoTen());
             ps.setString(2, dg.getGioiTinh());
             ps.setString(3, dg.getNgaySinh());
-            ps.setInt(4, userID);
+            ps.setString(4, dg.getEmail());
+            ps.setInt(5, userID);
             int row = ps.executeUpdate();
             if(row != 0) {
                 return true;
@@ -254,7 +259,7 @@ public class DocGiaDAO extends DAO{
             ps.setInt(1, userID);
             ResultSet res = ps.executeQuery();
             if(res.next()) {
-                DocGia dg = new DocGia(res.getString(2), res.getString(3), res.getString(4), res.getString(5));
+                DocGia dg = new DocGia(res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(7));
                 
                 return dg;
             }
@@ -267,7 +272,7 @@ public class DocGiaDAO extends DAO{
     }
     
     public boolean updateThongTinCaNhan(DocGia dg, int userID) {
-        String sql = "update people set hoTen = ?, gioiTinh = ?, ngaySinh = ?, doiTuong = ? where userID = ?";
+        String sql = "update people set hoTen = ?, gioiTinh = ?, ngaySinh = ?, doiTuong = ?, email = ? where userID = ?";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -275,7 +280,8 @@ public class DocGiaDAO extends DAO{
             ps.setString(2, dg.getGioiTinh());
             ps.setString(3, dg.getNgaySinh());
             ps.setString(4, dg.getDoiTuong());
-            ps.setInt(5, userID);
+            ps.setString(5, dg.getEmail());
+            ps.setInt(6, userID);
             int row = ps.executeUpdate();
             if(row != 0) {
                 return true;

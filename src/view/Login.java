@@ -9,6 +9,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.TaiKhoan;
+import util.OverdueChecker;
 
 /**
  *
@@ -24,6 +25,21 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         Image img = new ImageIcon(this.getClass().getResource("/icon/library3.png")).getImage();
         this.setIconImage(img);
+        checkOverdueBooksInBackground();
+    }
+    
+    
+    
+    
+    private void checkOverdueBooksInBackground() {
+        new Thread(() -> {
+            try {
+                System.out.println("🔍 Kiểm tra sách quá hạn khi khởi động...");
+                OverdueChecker.checkOverdueBooks(); // Gọi hàm kiểm tra trong OverdueChecker
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     /**

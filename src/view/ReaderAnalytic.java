@@ -93,11 +93,11 @@ public class ReaderAnalytic extends javax.swing.JFrame {
 
             },
             new String [] {
-                "UserID", "Tài khoản", "Mã ĐG", "Họ tên", "Giới tính", "Ngày sinh", "Đối tượng"
+                "UserID", "Tài khoản", "Mã ĐG", "Họ tên", "Giới tính", "Ngày sinh", "Đối tượng", "Email"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -265,6 +265,9 @@ public class ReaderAnalytic extends javax.swing.JFrame {
             cell = row.createCell(7, CellType.STRING);
             cell.setCellValue("Đối tượng");
             
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue("Email");
+            
             for(int i = 0; i < arr.size(); i++) {
                 row = sheet.createRow(4 + i);
                 
@@ -291,6 +294,9 @@ public class ReaderAnalytic extends javax.swing.JFrame {
                 
                 cell = row.createCell(7, CellType.STRING);
                 cell.setCellValue(arr.get(i).getDoiTuong());
+                
+                cell = row.createCell(8, CellType.STRING);
+                cell.setCellValue(arr.get(i).getEmail());
             }
             File f = new File("D:bangThongKeDocGia.xlsx");
             try {

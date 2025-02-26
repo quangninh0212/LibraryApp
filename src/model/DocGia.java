@@ -12,6 +12,7 @@ public class DocGia {
     private String maDG, hoTen, gioiTinh, ngaySinh, doiTuong;
     private int userID;
     private String taiKhoan;
+    private String email;
 
     public DocGia() {
     }
@@ -25,7 +26,7 @@ public class DocGia {
         this.userID = userID;
     }
     
-    public DocGia(String maDG, String hoTen, String gioiTinh, String ngaySinh, String doiTuong, int userID, String taiKhoan) {
+    public DocGia(String maDG, String hoTen, String gioiTinh, String ngaySinh, String doiTuong, int userID, String taiKhoan, String email) {
         this.maDG = maDG;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
@@ -33,19 +34,22 @@ public class DocGia {
         this.doiTuong = doiTuong;
         this.userID = userID;
         this.taiKhoan = taiKhoan;
+        this.email = email;
     }
     
-    public DocGia(String hoTen, String gioiTinh, String ngaySinh) {
+    public DocGia(String hoTen, String gioiTinh, String ngaySinh, String email) {
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
+        this.email = email;
     }
     
-    public DocGia(String hoTen, String gioiTinh, String ngaySinh, String doiTuong) {
+    public DocGia(String hoTen, String gioiTinh, String ngaySinh, String doiTuong, String email) {
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
         this.doiTuong = doiTuong;
+        this.email = email;
     }
 
 
@@ -103,6 +107,14 @@ public class DocGia {
 
     public void setTaiKhoan(String taiKhoan) {
         this.taiKhoan = taiKhoan;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     
